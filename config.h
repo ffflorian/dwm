@@ -56,9 +56,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "urxvt", NULL };
-static const char *lockcmd[]  = { "slock", NULL };
+static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]   = { "urxvt", NULL };
+static const char *lockcmd[]   = { "slock", NULL };
+static const char *scrotcmd[]  = { "scrot", "screenshot_%Y-%m-%d_%H-%M-%S.png", "-e", "mv $f ~/Pictures/", NULL};
+static const char *scrotfcmd[] = { "scrot", "--focused", "screenshot_%Y-%m-%d_%H-%M-%S.png", "-e", "mv $f ~/Pictures/", NULL };
+static const char *volup[]     = { "amixer", "-q", "set", "Master", "2+", NULL };
+static const char *voldown[]   = { "amixer", "-q", "set", "Master", "2-", NULL };
+static const char *volmute[]   = { "amixer", "-q", "set", "Master", "toggle", NULL };
 
 #include "selfrestart.c"
 
@@ -91,6 +96,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_Left,   x_prevtag,      {0} },
 	{ MODKEY,                       XK_Right,  x_nexttag,      {0} },
+	{ 0,                            XK_Print,  spawn,          {.v = scrotcmd } },
+	{ 0|ShiftMask,                  XK_Print,  spawn,          {.v = scrotfcmd } },
+	{ 0,                            XF86XK_AudioMute, spawn,         {.v = volmute} },
+	{ 0,                            XF86XK_AudioLowerVolume,  spawn, {.v = voldown} },
+	{ 0,                            XF86XK_AudioRaiseVolume, spawn,  {.v = volup} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -119,4 +129,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
