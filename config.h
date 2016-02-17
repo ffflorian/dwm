@@ -56,14 +56,16 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]   = { "urxvt", NULL };
-static const char *lockcmd[]   = { "slock", NULL };
-static const char *scrotcmd[]  = { "scrot", "screenshot_%Y-%m-%d_%H-%M-%S.png", "-e", "mv $f ~/Pictures/", NULL};
-static const char *scrotfcmd[] = { "scrot", "--focused", "screenshot_%Y-%m-%d_%H-%M-%S.png", "-e", "mv $f ~/Pictures/", NULL };
-static const char *volup[]     = { "amixer", "-q", "set", "Master", "2+", NULL };
-static const char *voldown[]   = { "amixer", "-q", "set", "Master", "2-", NULL };
-static const char *volmute[]   = { "amixer", "-q", "set", "Master", "toggle", NULL };
+static const char *dmenucmd[]    = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]     = { "urxvt", NULL };
+static const char *lockcmd[]     = { "slock", NULL };
+static const char *chromiumcmd[] = { "chromium", NULL };
+static const char *telegramcmd[] = { "telegram", NULL };
+static const char *scrotcmd[]    = { "scrot", "screenshot_%Y-%m-%d_%H-%M-%S.png", "-e", "mv $f ~/Pictures/", NULL};
+static const char *scrotfcmd[]   = { "scrot", "--focused", "screenshot_%Y-%m-%d_%H-%M-%S.png", "-e", "mv $f ~/Pictures/", NULL };
+static const char *volup[]       = { "amixer", "-q", "set", "Master", "2+", NULL };
+static const char *voldown[]     = { "amixer", "-q", "set", "Master", "2-", NULL };
+static const char *volmute[]     = { "amixer", "-q", "set", "Master", "toggle", NULL };
 
 #include "selfrestart.c"
 
@@ -82,6 +84,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_p,      zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
+        { MODKEY,                       XK_c,      spawn,          {.v = chromiumcmd } },
+        { MODKEY,                       XK_t,      spawn,          {.v = telegramcmd } },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
