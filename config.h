@@ -5,8 +5,16 @@ static const char *fonts[] = {
 	"monospace:size=10",
 	"Source Code Pro:size=10"
 };
+#define NUMCOLORS         4
+static const char colors[NUMCOLORS][MAXCOLORS][8] = {
+  // border   foreground background
+  { "#444444", "#bbbbbb", "#222222" },  // normal
+  { "#005577", "#eeeeee", "#005577" },  // selected
+  { "#ff0000", "#000000", "#ffff00" },  // urgent/warning  (black on yellow)
+  { "#ff0000", "#ffffff", "#ff0000" },  // error (white on red)
+  // add more here
+};
 static const char dmenufont[]       = "Source Code Pro:size=10";
-//static const char dmenufont[]       = "monospace:size=10";
 static const char normbordercolor[] = "#444444";
 static const char normbgcolor[]     = "#222222";
 static const char normfgcolor[]     = "#bbbbbb";
