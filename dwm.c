@@ -1410,7 +1410,10 @@ run(void)
 void
 runAutostart(void)
 {
-	system("~/.dwm/autostart.sh &");
+	int systemRet = system("/bin/sh -c ~/.dwm/autostart.sh &");
+	if (systemRet == -1) {
+		fprintf(stderr, "dwm: runAutostart: system command failed.");
+	}
 }
 
 void
@@ -2196,7 +2199,7 @@ main(int argc, char *argv[])
 	checkotherwm();
 	setup();
 	scan();
-        runAutostart();
+    runAutostart();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
