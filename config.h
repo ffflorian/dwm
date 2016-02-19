@@ -59,16 +59,16 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]    = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[]    = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", colors[0][2], "-nf", colors[0][1], "-sb", colors[1][2], "-sf", colors[1][1], NULL };
 static const char *termcmd[]     = { "urxvt", NULL };
 static const char *lockcmd[]     = { "slock", NULL };
 static const char *telegramcmd[] = { "telegram", NULL };
 static const char *spotifycmd[]  = { "spotify", NULL };
+
+#include "selfrestart.c"
+
+static Key keys[] = {
 	/* modifier                     key                      function        argument */
-	{ MODKEY,                       XK_Return,               spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_r,                    spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_l,                    spawn,          {.v = lockcmd } },
-	{ MODKEY|ShiftMask,             XK_r,                    self_restart,   {0} },
 	{ MODKEY,                       XK_b,                    togglebar,      {0} },
 	{ MODKEY,                       XK_j,                    focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,                    focusstack,     {.i = -1 } },
@@ -78,8 +78,6 @@ static const char *spotifycmd[]  = { "spotify", NULL };
 	{ MODKEY|ShiftMask,             XK_j,                    setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_p,                    zoom,           {0} },
 	{ MODKEY,                       XK_Tab,                  view,           {0} },
-	{ MODKEY,                       XK_c,                    spawn,          {.v = chromiumcmd } },
-	{ MODKEY,                       XK_t,                    spawn,          {.v = telegramcmd } },
 	{ MODKEY|ShiftMask,             XK_c,                    killclient,     {0} },
 	{ MODKEY,                       XK_t,                    setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,                    setlayout,      {.v = &layouts[1]} },
@@ -94,6 +92,13 @@ static const char *spotifycmd[]  = { "spotify", NULL };
 	{ MODKEY|ShiftMask,             XK_period,               tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_Left,                 x_prevtag,      {0} },
 	{ MODKEY,                       XK_Right,                x_nexttag,      {0} },
+	{ MODKEY|ShiftMask,             XK_r,                    self_restart,   {0} },
+	{ MODKEY,                       XK_Return,               spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_r,                    spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_l,                    spawn,          {.v = lockcmd } },
+	{ MODKEY,                       XK_t,                    spawn,          {.v = telegramcmd } },
+	{ MODKEY,                       XK_s,                    spawn,          {.v = spotifycmd } },
+	{ MODKEY,                       XK_c,                    spawn,          SHCMD("chromium || chromium-browser") },
 	{ 0,                            XK_Print,                spawn,          SHCMD("scrot screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
 	{ 0|ShiftMask,                  XK_Print,                spawn,          SHCMD("scrot --focused screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
 	{ 0,                            XF86XK_AudioMute,        spawn,          SHCMD("amixer -q set Master toggle || amixer -c 1 -q set Master toggle") },
