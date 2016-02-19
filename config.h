@@ -3,17 +3,18 @@
 /* appearance */
 static const char *fonts[] = {
 	"monospace:size=10",
-        "Source Code Pro:size=10"
+	"Source Code Pro:size=10"
+};
+#define NUMCOLORS         4
+static const char colors[NUMCOLORS][MAXCOLORS][8] = {
+  // border   foreground background
+  { "#444444", "#bbbbbb", "#222222" },  // normal
+  { "#008f46", "#eeeeee", "#008f46" },  // selected
+  { "#ff0000", "#000000", "#ffff00" },  // urgent/warning  (black on yellow)
+  { "#ff0000", "#ffffff", "#ff0000" },  // error (white on red)
+  // add more here
 };
 static const char dmenufont[]       = "Source Code Pro:size=10";
-//static const char dmenufont[]       = "monospace:size=10";
-static const char normbordercolor[] = "#444444";
-static const char normbgcolor[]     = "#222222";
-static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "#008f46";
-static const char selbgcolor[]      = "#008f46";
-//static const char selbordercolor[]  = "#005577";
-//static const char selbgcolor[]      = "#005577";
 static const char selfgcolor[]      = "#eeeeee";
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -63,58 +64,51 @@ static const char *termcmd[]     = { "urxvt", NULL };
 static const char *lockcmd[]     = { "slock", NULL };
 static const char *telegramcmd[] = { "telegram", NULL };
 static const char *spotifycmd[]  = { "spotify", NULL };
-
-#include "selfrestart.c"
-
-static Key keys[] = {
-	/* modifier                     key                       function        argument */
-	{ MODKEY|ShiftMask,             XK_r,                     self_restart,   {0} },
-	{ MODKEY,                       XK_b,                     togglebar,      {0} },
-	{ MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,                     focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,                     incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,                     incnmaster,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_h,                     setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_j,                     setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_p,                     zoom,           {0} },
-	{ MODKEY,                       XK_Tab,                   view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,                     killclient,     {0} },
-	{ MODKEY,                       XK_t,                     setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,                     setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,                     setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,                 setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,                 togglefloating, {0} },
-	{ MODKEY,                       XK_0,                     view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,                     tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,                 focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period,                focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,                 tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period,                tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_Left,                  x_prevtag,      {0} },
-	{ MODKEY,                       XK_Right,                 x_nexttag,      {0} },
-	{ MODKEY,                       XK_Return,                spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_r,                     spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_l,                     spawn,          {.v = lockcmd } },
-	{ MODKEY,                       XK_t,                     spawn,          {.v = telegramcmd } },
-	{ MODKEY,                       XK_s,                     spawn,          {.v = spotifycmd } },
-	{ MODKEY,                       XK_c,                     spawn,          SHCMD("chromium || chromium-browser") },
-	{ 0,                            XK_Print,                 spawn,          SHCMD("scrot screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
-	{ 0|ShiftMask,                  XK_Print,                 spawn,          SHCMD("scrot screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
-	{ 0,                            XF86XK_AudioMute,         spawn,          SHCMD("amixer -c 1 -q set Master toggle") },
-	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("amixer -c 1 -q set Master 2+") },
-	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("amixer -c 1 -q set Master 2-") },
-	{ 0,                            XF86XK_MonBrightnessUp,   spawn,          SHCMD("xbacklight -inc 10") },
-	{ 0,                            XF86XK_MonBrightnessDown, spawn,          SHCMD("xbacklight -dec 10") },
-	TAGKEYS(                        XK_1,                                     0)
-	TAGKEYS(                        XK_2,                                     1)
-	TAGKEYS(                        XK_3,                                     2)
-	TAGKEYS(                        XK_4,                                     3)
-	TAGKEYS(                        XK_5,                                     4)
-	TAGKEYS(                        XK_6,                                     5)
-	TAGKEYS(                        XK_7,                                     6)
-	TAGKEYS(                        XK_8,                                     7)
-	TAGKEYS(                        XK_9,                                     8)
-	{ MODKEY|ShiftMask,             XK_q,                     quit,           {0} },
+	/* modifier                     key                      function        argument */
+	{ MODKEY,                       XK_Return,               spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_r,                    spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_l,                    spawn,          {.v = lockcmd } },
+	{ MODKEY|ShiftMask,             XK_r,                    self_restart,   {0} },
+	{ MODKEY,                       XK_b,                    togglebar,      {0} },
+	{ MODKEY,                       XK_j,                    focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,                    focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_i,                    incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,                    incnmaster,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_h,                    setmfact,       {.f = -0.05} },
+	{ MODKEY|ShiftMask,             XK_j,                    setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_p,                    zoom,           {0} },
+	{ MODKEY,                       XK_Tab,                  view,           {0} },
+	{ MODKEY,                       XK_c,                    spawn,          {.v = chromiumcmd } },
+	{ MODKEY,                       XK_t,                    spawn,          {.v = telegramcmd } },
+	{ MODKEY|ShiftMask,             XK_c,                    killclient,     {0} },
+	{ MODKEY,                       XK_t,                    setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,                    setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,                    setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_space,                setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,                togglefloating, {0} },
+	{ MODKEY,                       XK_0,                    view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,                    tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,                focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period,               focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,                tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,               tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_Left,                 x_prevtag,      {0} },
+	{ MODKEY,                       XK_Right,                x_nexttag,      {0} },
+	{ 0,                            XK_Print,                spawn,          SHCMD("scrot screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
+	{ 0|ShiftMask,                  XK_Print,                spawn,          SHCMD("scrot --focused screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
+	{ 0,                            XF86XK_AudioMute,        spawn,          SHCMD("amixer -q set Master toggle || amixer -c 1 -q set Master toggle") },
+	{ 0,                            XF86XK_AudioLowerVolume, spawn,          SHCMD("amixer -q set Master 2- || amixer -c 1 -q set Master 2-") },
+	{ 0,                            XF86XK_AudioRaiseVolume, spawn,          SHCMD("amixer -q set Master 2+ || amixer -c 1 -q set Master 2+") },
+	TAGKEYS(                        XK_1,                                    0)
+	TAGKEYS(                        XK_2,                                    1)
+	TAGKEYS(                        XK_3,                                    2)
+	TAGKEYS(                        XK_4,                                    3)
+	TAGKEYS(                        XK_5,                                    4)
+	TAGKEYS(                        XK_6,                                    5)
+	TAGKEYS(                        XK_7,                                    6)
+	TAGKEYS(                        XK_8,                                    7)
+	TAGKEYS(                        XK_9,                                    8)
+	{ MODKEY|ShiftMask,             XK_q,                    quit,           {0} },
 };
 
 /* button definitions */
