@@ -79,6 +79,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,                    zoom,           {0} },
 	{ MODKEY,                       XK_Tab,                  view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,                    killclient,     {0} },
+	{ MODKEY,                       XK_w,                    killclient,     {0} },
 	{ MODKEY,                       XK_t,                    setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,                    setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,                    setlayout,      {.v = &layouts[2]} },
@@ -93,14 +94,16 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Left,                 x_prevtag,      {0} },
 	{ MODKEY,                       XK_Right,                x_nexttag,      {0} },
 	{ MODKEY|ShiftMask,             XK_r,                    self_restart,   {0} },
+	{ MODKEY|ShiftMask,             XK_q,                    quit,           {0} },
 	{ MODKEY,                       XK_Return,               spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_r,                    spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_l,                    spawn,          {.v = lockcmd } },
 	{ MODKEY,                       XK_t,                    spawn,          {.v = telegramcmd } },
 	{ MODKEY,                       XK_s,                    spawn,          {.v = spotifycmd } },
 	{ MODKEY,                       XK_c,                    spawn,          SHCMD("chromium || chromium-browser") },
-	{ 0,                            XK_Print,                spawn,          SHCMD("scrot screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
-	{ 0|ShiftMask,                  XK_Print,                spawn,          SHCMD("scrot --focused screenshot_%Y-%m-%d_%H-%M-%S.png -e mv $f ~/Pictures/") },
+	{ 0,                            XK_Print,                spawn,          SHCMD("scrot --multidisp ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png") },
+	{ 0|ShiftMask,                  XK_Print,                spawn,          SHCMD("scrot --focused ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png") },
+	{ 0|ControlMask|ShiftMask,      XK_Print,                spawn,          SHCMD("scrot --select ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png") },
 	{ 0,                            XF86XK_AudioMute,        spawn,          SHCMD("amixer -q set Master toggle || amixer -c 1 -q set Master toggle") },
 	{ 0,                            XF86XK_AudioLowerVolume, spawn,          SHCMD("amixer -q set Master 2- || amixer -c 1 -q set Master 2-") },
 	{ 0,                            XF86XK_AudioRaiseVolume, spawn,          SHCMD("amixer -q set Master 2+ || amixer -c 1 -q set Master 2+") },
@@ -113,7 +116,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                                    6)
 	TAGKEYS(                        XK_8,                                    7)
 	TAGKEYS(                        XK_9,                                    8)
-	{ MODKEY|ShiftMask,             XK_q,                    quit,           {0} },
 };
 
 /* button definitions */
