@@ -105,8 +105,10 @@ static Key keys[] = {
 	{ 0|ShiftMask,                  XK_Print,                spawn,          SHCMD("scrot --focused ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png") },
 	{ 0|ControlMask|ShiftMask,      XK_Print,                spawn,          SHCMD("scrot --select ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png") },
 	{ 0,                            XF86XK_AudioMute,        spawn,          SHCMD("amixer -q set Master toggle || amixer -c 1 -q set Master toggle") },
-	{ 0,                            XF86XK_AudioLowerVolume, spawn,          SHCMD("amixer -q set Master 2- || amixer -c 1 -q set Master 2-") },
-	{ 0,                            XF86XK_AudioRaiseVolume, spawn,          SHCMD("amixer -q set Master 2+ || amixer -c 1 -q set Master 2+") },
+	{ 0,                            XF86XK_AudioLowerVolume, spawn,          SHCMD("amixer -q set Master 2- unmute || amixer -c 1 -q set Master 2- unmute") },
+	{ 0,                            XF86XK_AudioRaiseVolume, spawn,          SHCMD("amixer -q set Master 2+ unmute || amixer -c 1 -q set Master 2+ unmute") },
+	{ MODKEY,                       XK_Down,                 spawn,          SHCMD("amixer -q set Master 2- unmute || amixer -c 1 -q set Master 2- unmute") },
+	{ MODKEY,                       XK_Up,                   spawn,          SHCMD("amixer -q set Master 2+ unmute || amixer -c 1 -q set Master 2+ unmute") },
 	TAGKEYS(                        XK_1,                                    0)
 	TAGKEYS(                        XK_2,                                    1)
 	TAGKEYS(                        XK_3,                                    2)
